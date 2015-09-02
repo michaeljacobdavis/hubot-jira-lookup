@@ -7,7 +7,7 @@
 # Configuration:
 #   HUBOT_USERNAME
 #   HUBOT_PASSWORD
-#   HUBOT_HUBOT_JIRA_URL
+#   HUBOT_JIRA_URL
 #   HUBOT_IGNORE_USERS (optional, format: "user1|user2", default is "jira|github")
 #
 # Commands:
@@ -32,7 +32,7 @@ module.exports = (robot) ->
     issue = msg.match[0]
     user = process.env.HUBOT_USERNAME
     pass = process.env.HUBOT_PASSWORD
-    url = process.env.HUBOT_HUBOT_JIRA_URL
+    url = process.env.HUBOT_JIRA_URL
     auth = 'Basic ' + new Buffer(user + ':' + pass).toString('base64')
     robot.http("#{url}/rest/api/latest/issue/#{issue}")
       .headers(Authorization: auth, Accept: 'application/json')
@@ -41,8 +41,9 @@ module.exports = (robot) ->
           json = JSON.parse(body)
           json_acceptanceCriteria = ""
           if json.fields[acceptanceCriteriaField]
+            json_acceptanceCriteria = "\n Acceptance:  "
             unless json.fields[acceptanceCriteriaField] is null or json.fields[acceptanceCriteriaField].nil? or json.fields[acceptanceCriteriaField].empty?
-              json_acceptanceCriteria = json.fields[acceptanceCriteriaField]
+              json_acceptanceCriteria += json.fields[acceptanceCriteriaField]
           json_description = ""
           if json.fields.description
             json_description = "\n Description: "
