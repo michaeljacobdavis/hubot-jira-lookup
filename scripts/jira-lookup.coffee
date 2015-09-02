@@ -93,4 +93,4 @@ module.exports = (robot) ->
           else
             msg.send "Issue:       #{json.key}: #{json_acceptanceCriteria}#{json_description}#{json_assignee}#{json_status}\n Link:        #{process.env.JIRA_URL}/browse/#{json.key}\n"
         catch error
-          console.log "Issue #{json.key} not found"
+          console.log error
