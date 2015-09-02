@@ -18,14 +18,14 @@ To enable the script, add the `hubot-jira-lookup` entry to the `external-scripts
 
 ## Configuration
 
-* USERNAME
-* PASSWORD
-* JIRA_URL
+* HUBOT_USERNAME
+* HUBOT_PASSWORD
+* HUBOT_JIRA_URL
 
 There is also an optional configuration value.
 
-* IGNORE_USERS
+* HUBOT_IGNORE_USERS
 
-`IGNORE_USERS` will allow you to ignore messages from pre-defined users. Default is to ignore from users named "jira" and "github", casing is ignored.
+`HUBOT_IGNORE_USERS` will allow you to ignore messages from pre-defined users. Default is to ignore from users named "jira" and "github", casing is ignored.
 
 If you're using [Hubot Slack Attachments](inkel/hubot-slack-attachment), this script will use [Slack Attachments](https://api.slack.com/docs/attachments) to format its lookup result.

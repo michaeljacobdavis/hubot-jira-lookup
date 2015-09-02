@@ -5,10 +5,10 @@
 #   None
 #
 # Configuration:
-#   USERNAME
-#   PASSWORD
-#   JIRA_URL
-#   IGNORE_USERS (optional, format: "user1|user2", default is "jira|github")
+#   HUBOT_USERNAME
+#   HUBOT_PASSWORD
+#   HUBOT_HUBOT_JIRA_URL
+#   HUBOT_IGNORE_USERS (optional, format: "user1|user2", default is "jira|github")
 #
 # Commands:
 #   None
@@ -21,7 +21,7 @@
 module.exports = (robot) ->
 
   acceptanceCriteriaField = 'customfield_10302'
-  ignored_users = process.env.IGNORE_USERS
+  ignored_users = process.env.HUBOT_IGNORE_USERS
   if ignored_users == undefined
     ignored_users = "jira|github"
 
@@ -30,9 +30,9 @@ module.exports = (robot) ->
     return if msg.message.user.name.match(new RegExp(ignored_users, "gi"))
 
     issue = msg.match[0]
-    user = process.env.USERNAME
-    pass = process.env.PASSWORD
-    url = process.env.JIRA_URL
+    user = process.env.HUBOT_USERNAME
+    pass = process.env.HUBOT_PASSWORD
+    url = process.env.HUBOT_HUBOT_JIRA_URL
     auth = 'Basic ' + new Buffer(user + ':' + pass).toString('base64')
     robot.http("#{url}/rest/api/latest/issue/#{issue}")
       .headers(Authorization: auth, Accept: 'application/json')
@@ -67,7 +67,7 @@ module.exports = (robot) ->
               message: msg.message
               content:
                 text: 'Issue details'
-                fallback: 'Issue:       #{json.key}: #{json_acceptanceCriteria}#{json_description}#{json_assignee}#{json_status}\n Link:        #{process.env.JIRA_URL}/browse/#{json.key}\n'
+                fallback: 'Issue:       #{json.key}: #{json_acceptanceCriteria}#{json_description}#{json_assignee}#{json_status}\n Link:        #{process.env.HUBOT_JIRA_URL}/browse/#{json.key}\n'
                 fields: [
                   {
                   title: 'Acceptance Criteria'
@@ -87,10 +87,10 @@ module.exports = (robot) ->
                   },
                   {
                   title: 'Link'
-                  value: "<#{process.env.JIRA_URL}/browse/#{json.key}>"
+                  value: "<#{process.env.HUBOT_JIRA_URL}/browse/#{json.key}>"
                   }
                 ]
           else
-            msg.send "Issue:       #{json.key}: #{json_acceptanceCriteria}#{json_description}#{json_assignee}#{json_status}\n Link:        #{process.env.JIRA_URL}/browse/#{json.key}\n"
+            msg.send "Issue:       #{json.key}: #{json_acceptanceCriteria}#{json_description}#{json_assignee}#{json_status}\n Link:        #{process.env.HUBOT_JIRA_URL}/browse/#{json.key}\n"
         catch error
           console.log error
